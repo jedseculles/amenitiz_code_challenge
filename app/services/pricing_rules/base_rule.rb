@@ -1,10 +1,10 @@
-require 'bigdecimal'
+require "bigdecimal"
 
 module PricingRules
   class BaseRule
     # items: Array<CartItem>, return BigDecimal discount (negative for discount, 0 otherwise)
     def apply(items)
-      BigDecimal('0')
+      BigDecimal("0")
     end
 
     protected

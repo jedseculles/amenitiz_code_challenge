@@ -57,7 +57,7 @@ class CartsController < ApplicationController
 
     # Prepare data for turbo views without additional queries in the views
     @cart_count = 0
-    @cart_total = BigDecimal('0')
+    @cart_total = BigDecimal("0")
     @all_product_ids = Product.active.pluck(:id)
 
     respond_to do |format|

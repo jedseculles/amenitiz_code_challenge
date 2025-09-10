@@ -5,7 +5,7 @@ RSpec.describe 'PricingRules' do
   def build_items(code:, price:, quantity:)
     product = Product.create!(code: code, name: code, base_price: price)
     cart = Cart.create!(session_id: SecureRandom.uuid)
-    [CartItem.create!(cart: cart, product: product, quantity: quantity)]
+    [ CartItem.create!(cart: cart, product: product, quantity: quantity) ]
   end
 
   describe PricingRules::BuyOneGetOneFreeRule do

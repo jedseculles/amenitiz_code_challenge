@@ -8,5 +8,5 @@ class Product < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   has_many :cart_items, dependent: :destroy
-  has_many :carts, through: :cart_items 
+  has_many :carts, through: :cart_items
 end

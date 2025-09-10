@@ -13,7 +13,7 @@ class Cart < ApplicationRecord
   def remove_product(product)
     cart_items.find_by(product: product).destroy
   end
-  
+
   def clear
     cart_items.destroy_all
   end

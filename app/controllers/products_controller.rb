@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
     # Compute the current cart total with pricing rules
     @cart_total = CartCalculator.new.calculate(current_cart)
   end
-  
+
   # GET /products/1
   def show
   end

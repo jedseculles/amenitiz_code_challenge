@@ -56,15 +56,28 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # services:
-    #  redis:
-    #    image: redis
-    #    ports:
-    #      - 6379:6379
-    #    options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+    services:
+      postgres:
+        image: postgres:16
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: amenitize_code_challenge_test
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      RAILS_ENV: test
+
     steps:
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config google-chrome-stable
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config libpq-dev
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,16 +88,26 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test test:system
+      - name: Create config/database.yml for test
+        run: |
+          mkdir -p config
+          cat > config/database.yml <<'YML'
+          test:
+            adapter: postgresql
+            encoding: unicode
+            database: amenitize_code_challenge_test
+            username: postgres
+            password: postgres
+            host: 127.0.0.1
+            port: 5432
+            pool: 5
+            timeout: 5000
+          YML
 
-      - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
-          if-no-files-found: ignore
+      - name: Prepare DB
+        run: |
+          bin/rails db:create db:schema:load
+
+      - name: Run tests (RSpec)
+        run: |
+          bundle exec rspec

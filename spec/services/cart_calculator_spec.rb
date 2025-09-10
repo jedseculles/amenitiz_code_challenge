@@ -30,7 +30,7 @@ RSpec.describe CartCalculator do
         { code: 'GR1', name: 'Green Tea', price: 3.11, qty: 3 }
       ])
 
-      rules = [PricingRules::BuyOneGetOneFreeRule.new(product_code: 'GR1')]
+      rules = [ PricingRules::BuyOneGetOneFreeRule.new(product_code: 'GR1') ]
       total = described_class.new(pricing_rules: rules).calculate(cart)
 
       # Subtotal = 3 * 3.11 = 9.33
@@ -44,7 +44,7 @@ RSpec.describe CartCalculator do
         { code: 'SR1', name: 'Strawberries', price: 5.00, qty: 3 }
       ])
 
-      rules = [PricingRules::BulkDiscountRule.new(product_code: 'SR1', threshold: 3, discounted_price: 4.50)]
+      rules = [ PricingRules::BulkDiscountRule.new(product_code: 'SR1', threshold: 3, discounted_price: 4.50) ]
       total = described_class.new(pricing_rules: rules).calculate(cart)
 
       # Normal subtotal: 3 * 5.00 = 15.00
@@ -58,7 +58,7 @@ RSpec.describe CartCalculator do
         { code: 'CF1', name: 'Coffee', price: 11.23, qty: 3 }
       ])
 
-      rules = [PricingRules::VolumeDiscountRule.new(product_code: 'CF1', threshold: 3, factor: BigDecimal('2')/3)]
+      rules = [ PricingRules::VolumeDiscountRule.new(product_code: 'CF1', threshold: 3, factor: BigDecimal('2')/3) ]
       total = described_class.new(pricing_rules: rules).calculate(cart)
 
       # Subtotal: 33.69
@@ -68,7 +68,7 @@ RSpec.describe CartCalculator do
     end
 
     it 'handles empty rules array' do
-      cart = build_cart([{ code: 'GR1', name: 'Green Tea', price: 3.11, qty: 1 }])
+      cart = build_cart([ { code: 'GR1', name: 'Green Tea', price: 3.11, qty: 1 } ])
       total = described_class.new(pricing_rules: []).calculate(cart)
       expect(total).to eq(BigDecimal('3.11'))
     end

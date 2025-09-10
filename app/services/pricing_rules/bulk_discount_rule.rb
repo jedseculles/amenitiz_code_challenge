@@ -8,10 +8,10 @@ module PricingRules
 
     def apply(cart_items)
       items = cart_items.select { |i| i.product.code == @product_code }
-      return BigDecimal('0') if items.empty?
+      return BigDecimal("0") if items.empty?
 
       qty = items.sum(&:quantity)
-      return BigDecimal('0') if qty < @threshold
+      return BigDecimal("0") if qty < @threshold
 
       discount_per_item = unit_price(@product_code) - @discounted_price
       -discount_per_item * qty

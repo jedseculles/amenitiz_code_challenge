@@ -1,0 +1,14 @@
+<div class="product-card" id="product_<%= product.id %>">
+    <h3><%= product.name %></h3>
+    <p class="product-code">Code: <%= product.code %></p>
+    <p class="product-price"><%= number_to_currency(product.base_price, unit: '€') %></p>
+
+    <div class="product-quantity" id="product_<%= product.id %>_quantity">
+    Quantity in cart: <%= item&.quantity || 0 %>
+    </div>
+
+    <div class="actions">
+    <%= link_to "Add", add_to_cart_path(product_id: product.id), data: { turbo_method: :post }, class: "btn" %>
+    <%= link_to "Remove", remove_from_cart_path(product_id: product.id), data: { turbo_method: :delete }, class: "btn #{'disabled' if item.nil?}", aria: { disabled: item.nil? } %>
+    </div>
+</div>

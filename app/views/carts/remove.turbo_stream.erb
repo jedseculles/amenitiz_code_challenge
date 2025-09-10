@@ -1,0 +1,12 @@
+<turbo-stream target="cart_count" action="update">
+  <template>
+    Items in cart: <%= current_cart.cart_items.sum(:quantity) %>
+  </template>
+</turbo-stream>
+
+<turbo-stream target="product_<%= params[:product_id] %>_quantity" action="update">
+  <template>
+    <% item = current_cart.cart_items.find_by(product_id: params[:product_id]) %>
+    Quantity in cart: <%= item&.quantity || 0 %>
+  </template>
+</turbo-stream>

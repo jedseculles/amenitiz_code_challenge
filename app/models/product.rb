@@ -6,4 +6,7 @@ class Product < ApplicationRecord
 
   # Convenience scope for active products in the catalog
   scope :active, -> { where(active: true) }
+
+  has_many :cart_items, dependent: :destroy
+  has_many :carts, through: :cart_items 
 end

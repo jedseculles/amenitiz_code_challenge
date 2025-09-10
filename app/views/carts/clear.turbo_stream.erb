@@ -1,0 +1,16 @@
+<turbo-stream target="cart_count" action="update">
+  <template>
+    Items in cart: 0
+  </template>
+</turbo-stream>
+
+<%# Reset all per-product quantities currently visible. This uses a conservative approach: re-render the products index list quantities.
+    If more precision is needed, data-controller could enumerate items to update via Stimulus. %>
+<% @products = Product.active.order(:name) rescue [] %>
+<% @products.each do |product| %>
+  <turbo-stream target="product_<%= product.id %>_quantity" action="update">
+    <template>
+      Quantity in cart: 0
+    </template>
+  </turbo-stream>
+<% end %>

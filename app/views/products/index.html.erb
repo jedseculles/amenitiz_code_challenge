@@ -1,0 +1,25 @@
+<p class="notice"><%= notice %></p>
+
+<% content_for :title, "Store" %>
+
+<h1 class="store-title">Store</h1>
+
+<div id="cart-controls">
+  <span id="cart_count" data-controller="cart-count">
+    <%# This will be updated by turbo_stream responses %>
+    Items in cart: <%= current_cart.cart_items.sum(:quantity) %>
+  </span>
+  <span class="right-actions">
+    <%= link_to "Clear cart", clear_cart_path, data: { turbo_method: :delete }, class: "btn" %>
+  </span>
+</div>
+
+<div id="products">
+  <% @products.each do |product| %>
+    <% item = current_cart.cart_items.find_by(product_id: product.id) %>
+    <%= render "product", product: product, item: item %>
+  <% end %>
+  <% if @products.empty? %>
+    <p>No products available.</p>
+  <% end %>
+</div>

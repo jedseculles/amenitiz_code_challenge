@@ -8,3 +8,77 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+/* Flash/notice message */
+.notice {
+  color: green;
+}
+
+/* Error message style for forms */
+.form-error {
+  color: red;
+}
+
+/* Total label spacing in cart controls */
+.cart-total {
+  margin-left: 12px;
+}
+
+/* Store layout */
+.store-title {
+  margin: 0 0 16px 0;
+}
+
+#cart-controls {
+  margin-bottom: 12px;
+}
+
+#cart-controls .right-actions {
+  margin-left: 20px;
+}
+
+#products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.product-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.product-code {
+  margin: 0 0 8px 0;
+  color: #666;
+}
+
+.product-price {
+  margin: 0 0 12px 0;
+  font-weight: bold;
+}
+
+.product-quantity {
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn.disabled, .btn[aria-disabled="true"] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Label block utility */
+.label-block {
+  display: block;
+}

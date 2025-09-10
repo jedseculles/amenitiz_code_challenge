@@ -1,0 +1,19 @@
+<turbo-stream target="cart_count" action="update">
+  <template>
+    Items in cart: <%= @cart_count %>
+  </template>
+</turbo-stream>
+
+<% @all_product_ids.each do |pid| %>
+  <turbo-stream target="product_<%= pid %>_quantity" action="update">
+    <template>
+      Quantity in cart: 0
+    </template>
+  </turbo-stream>
+<% end %>
+
+<turbo-stream target="cart_total" action="update">
+  <template>
+    Total: <%= number_to_currency(@cart_total, unit: '€') %>
+  </template>
+</turbo-stream>

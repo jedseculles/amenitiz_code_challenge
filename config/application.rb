@@ -32,8 +32,8 @@ module AmenitizeCodeChallenge
                        routing_specs: false,
                        controller_specs: false,
                        request_specs: true
-      g.fixture_replacement :factory_bot, dir: "spec/factories" # if you add factory_bot later
-      g.system_tests = nil # disable Minitest system tests (optional)
+      g.fixture_replacement :factory_bot, dir: "spec/factories"
+      g.system_tests = nil
     end
   end
 end

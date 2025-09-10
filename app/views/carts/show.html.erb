@@ -1,0 +1,14 @@
+<p class="notice"><%= notice %></p>
+
+<%# Simple cart summary for store-facing flow %>
+<% cart = @cart || current_cart %>
+<h2>Cart</h2>
+<ul>
+  <% cart.cart_items.includes(:product).each do |item| %>
+    <li>
+      <%= item.product.name %> x <%= item.quantity %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Continue shopping", products_path %>

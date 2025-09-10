@@ -1,14 +1,20 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
-  # GET /products or /products.json
+  # GET /products
   def index
+    # Store-facing catalog should only show active products
     @products = Product.active.order(:name)
-  end
 
+    # Compute the current cart total with pricing rules
+    @cart_total = CartCalculator.new.calculate(current_cart)
+  end
+  
   # GET /products/1
   def show
   end
+
+  # NOTE: Leaving all admin CRUD actions for faster adding/deleting of products in the store
 
   # GET /products/new
   def new
@@ -53,12 +59,12 @@ class ProductsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # Use callbacks to share common setup or constraints between actions
     def set_product
-      @product = Product.find(params.expect(:id))
+      @product = Product.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters
     def product_params
       params.fetch(:product, {}).permit(:code, :name, :base_price, :active)
     end

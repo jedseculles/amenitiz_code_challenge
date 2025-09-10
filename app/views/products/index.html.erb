@@ -9,6 +9,9 @@
     <%# This will be updated by turbo_stream responses %>
     Items in cart: <%= current_cart.cart_items.sum(:quantity) %>
   </span>
+  <span id="cart_total" class="cart-total">
+    Total: <%= number_to_currency(@cart_total, unit: '€') %>
+  </span>
   <span class="right-actions">
     <%= link_to "Clear cart", clear_cart_path, data: { turbo_method: :delete }, class: "btn" %>
   </span>
@@ -17,7 +20,20 @@
 <div id="products">
   <% @products.each do |product| %>
     <% item = current_cart.cart_items.find_by(product_id: product.id) %>
-    <%= render "product", product: product, item: item %>
+    <div class="product-card" id="product_<%= product.id %>">
+      <h3><%= product.name %></h3>
+      <p class="product-code">Code: <%= product.code %></p>
+      <p class="product-price"><%= number_to_currency(product.base_price, unit: '€') %></p>
+
+      <div class="product-quantity" id="product_<%= product.id %>_quantity">
+        Quantity in cart: <%= item&.quantity || 0 %>
+      </div>
+
+      <div class="actions" id="product_<%= product.id %>_actions">
+        <%= link_to "Add", add_to_cart_path(product_id: product.id), data: { turbo_method: :post }, class: "btn" %>
+        <%= link_to "Remove", remove_from_cart_path(product_id: product.id), data: { turbo_method: :delete }, class: "btn #{'disabled' if item.nil?}", aria: { disabled: item.nil? } %>
+      </div>
+    </div>
   <% end %>
   <% if @products.empty? %>
     <p>No products available.</p>

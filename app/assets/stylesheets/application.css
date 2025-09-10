@@ -14,6 +14,16 @@
   color: green;
 }
 
+/* Error message style for forms */
+.form-error {
+  color: red;
+}
+
+/* Total label spacing in cart controls */
+.cart-total {
+  margin-left: 12px;
+}
+
 /* Store layout */
 .store-title {
   margin: 0 0 16px 0;
@@ -66,4 +76,9 @@
 .btn.disabled, .btn[aria-disabled="true"] {
   pointer-events: none;
   opacity: 0.6;
+}
+
+/* Label block utility */
+.label-block {
+  display: block;
 }

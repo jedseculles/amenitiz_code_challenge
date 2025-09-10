@@ -1,12 +1,26 @@
 <turbo-stream target="cart_count" action="update">
   <template>
-    Items in cart: <%= current_cart.cart_items.sum(:quantity) %>
+    Items in cart: <%= @cart_count %>
   </template>
 </turbo-stream>
 
-<turbo-stream target="product_<%= params[:product_id] %>_quantity" action="update">
+<turbo-stream target="product_<%= @product.id %>_quantity" action="update">
   <template>
-    <% item = current_cart.cart_items.find_by(product_id: params[:product_id]) %>
-    Quantity in cart: <%= item&.quantity || 0 %>
+    Quantity in cart: <%= @item&.quantity || 0 %>
+  </template>
+</turbo-stream>
+
+<turbo-stream target="product_<%= @product.id %>_actions" action="update">
+  <template>
+    <div class="actions" id="product_<%= @product.id %>_actions">
+      <%= link_to "Add", add_to_cart_path(product_id: @product.id), data: { turbo_method: :post }, class: "btn" %>
+      <%= link_to "Remove", remove_from_cart_path(product_id: @product.id), data: { turbo_method: :delete }, class: "btn #{'disabled' if @item.nil?}", aria: { disabled: @item.nil? } %>
+    </div>
+  </template>
+</turbo-stream>
+
+<turbo-stream target="cart_total" action="update">
+  <template>
+    Total: <%= number_to_currency(@cart_total, unit: '€') %>
   </template>
 </turbo-stream>
